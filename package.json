@@ -1,0 +1,16 @@
+{
+  "name": "easy-rtc-angular-2",
+  "version": "1.0.0",
+  "description": "demo easy rtc",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bean",
+  "license": "ISC",
+  "dependencies": {
+    "easyrtc": "^1.0.15",
+    "express": "^4.13.3",
+    "socket.io": "^1.3.7"
+  }
+}

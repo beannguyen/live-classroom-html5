@@ -1,0 +1,12 @@
+{
+  "name": "live-classroom-application",
+  "authors": [
+    "beannguyen <bao.nlq94@gmail.com>"
+  ],
+  "description": "Build simple live classroom application with HTML5",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "GNU",
+  "homepage": "",
+  "private": true
+}
