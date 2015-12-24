@@ -1032,10 +1032,12 @@ app.
 							$input.focus();
 						});
 
-						if($input.val().trim().length > 0)
-						{
-							$this.addClass('is-focused');
-						}
+						if ($input.val() !== undefined) {
+							if($input.val().trim().length > 0)
+							{
+								$this.addClass('is-focused');
+							}
+						};
 				});
 			}
 		};

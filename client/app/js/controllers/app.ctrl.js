@@ -1,7 +1,7 @@
 'use strict';
 
 app
-	.controller('AppCtrl', function ($log, $scope, $rootScope, $location, $layout, $layoutToggles, $pageLoadingBar, Fullscreen) {
+	.controller('AppCtrl', function ($log, $scope, $rootScope, $state, $stateParams, $location, $layout, $layoutToggles, $pageLoadingBar, Fullscreen, AuthService, ResfulWS) {
 		$rootScope.isLoginPage        = false;
 		$rootScope.isLightLoginPage   = false;
 		$rootScope.isLockscreenPage   = false;
@@ -138,5 +138,25 @@ app
 				Fullscreen.all();
 
 			$scope.isFullscreen = Fullscreen.isEnabled() ? true : false;
-		}
-	})
+		};
+
+		$rootScope.currentUser = null;
+
+		if ($rootScope.currentUser !== null) {
+			// set default option for student, change this method if user is a teacher
+            if ($rootScope.currentUser.type === 'student') {
+
+                AuthService.setEasyRtcDefaultOptions();
+            } else {
+                AuthService.setEasyRtcTeacherOptions();
+            }
+		};
+
+		$scope.logout = function() {
+            AuthService.logout(function() {
+                $state.go('login');
+            }, function() {
+                alert("Failed to logout!");
+            });
+        };
+	});

@@ -10,22 +10,26 @@
 
 	<title>Live Classroom Demo App</title>
 
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
-	<link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
-	<link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/css/xenon-core.css">
-	<link rel="stylesheet" href="assets/css/xenon-forms.css">
-	<link rel="stylesheet" href="assets/css/xenon-components.css">
-	<link rel="stylesheet" href="assets/css/xenon-skins.css">
-	<link rel="stylesheet" href="assets/css/custom.css">
+	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic"> -->
+	<link rel="stylesheet" href="css/fonts/linecons/css/linecons.css">
+	<link rel="stylesheet" href="css/fonts/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/xenon-core.css">
+	<link rel="stylesheet" href="css/xenon-forms.css">
+	<link rel="stylesheet" href="css/xenon-components.css">
+	<link rel="stylesheet" href="css/xenon-skins.css">
+	<link rel="stylesheet" href="css/custom.css">
 
-	<script src="assets/js/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+
+	<script src="js/jquery-1.11.1.min.js"></script>
 	<script>
 	var appHelper = {
 		// Vars (paths without trailing slash)
-		templatesDir: 'app/tpls',
-		assetsDir: 'assets',
+		templatesDir: 'tpls',
+		assetsDir: '',
 
 		// Methods
 		templatePath: function(view_name)
@@ -64,32 +68,38 @@
 
 
 	<!-- Bottom Scripts -->
-	<script src="bower_components/angular/angular.min.js"></script>
-	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls-0.11.2.min.js"></script>
-	<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
-	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
-	<script src="bower_components/angular-fullscreen/angular-fullscreen.js"></script>
-	<script src="assets/js/TweenMax.min.js"></script>
-	<script src="assets/js/joinable.js"></script>
-	<script src="assets/js/resizeable.js"></script>
+	<script src="angular/angular.min.js"></script>
+	<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="angular-bootstrap/ui-bootstrap-tpls-0.11.2.min.js"></script>
+	<script src="angular-cookies/angular-cookies.min.js"></script>
+	<script src="oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="ngstorage/ngStorage.js"></script>
+	<script src="angular-fullscreen/angular-fullscreen.js"></script>
+	<script src="js/TweenMax.min.js"></script>
+	<script src="js/joinable.js"></script>
+	<script src="js/resizeable.js"></script>
 
 
 	<!-- App -->
-	<script src="app/js/app.js"></script>
-	<script type="text/javascript" src="app/js/config.assets.js"></script>
-	<script type="text/javascript" src="app/js/config.router.js"></script>
-	<script type="text/javascript" src="app/js/controllers/app.ctrl.js"></script>
-	<script type="text/javascript" src="app/js/controllers/settings-pane.ctrl.js"></script>
-	<script type="text/javascript" src="app/js/controllers/horizontal-menu.ctrl.js"></script>
-	<script type="text/javascript" src="app/js/controllers/footer-chat.ctrl.js"></script>
-	<script type="text/javascript" src="app/js/controllers/chat.ctrl.js"></script>
-	<script type="text/javascript" src="app/js/directives/directives.js"></script>
-	<script type="text/javascript" src="app/js/factory/factory.js"></script>
-	<script type="text/javascript" src="app/js/services/menu.service.js"></script>
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="js/config.assets.js"></script>
+	<script type="text/javascript" src="js/config.oclazyload.js"></script>
+	<script type="text/javascript" src="js/config.router.js"></script>
+	<script type="text/javascript" src="js/factory/resful-api.service.js"></script>
+	<script type="text/javascript" src="js/controllers/app.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/settings-pane.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/horizontal-menu.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/footer-chat.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/chat.ctrl.js"></script>
+	<script type="text/javascript" src="js/directives/directives.js"></script>
+	<script type="text/javascript" src="js/factory/factory.js"></script>
+	<script type="text/javascript" src="js/services/menu.service.js"></script>
+	<script type="text/javascript" src="js/factory/authentication.service.js"></script>
+	<script type="text/javascript" src="js/controllers/login.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/register.ctrl.js"></script>
 
 	<!-- JavaScripts initializations and stuff -->
-	<script src="app/js/xenon-custom.js"></script>
+	<script src="js/xenon-custom.js"></script>
 
 </body>
 </html>
