@@ -75,6 +75,7 @@ app
 		$rootScope.$on('$stateChangeStart', function (event, next) {
 	    	
 	    	if (next.data.auth) {
+	    		
 	    		AuthService.isAuthorized(function (res) {
 	    			if (res.type == false) {
 	    				console.log('Error: ', res.data);

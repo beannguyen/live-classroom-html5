@@ -1,7 +1,7 @@
 'use strict';
 
 app
-	.controller('AppCtrl', function ($log, $scope, $rootScope, $state, $stateParams, $location, $layout, $layoutToggles, $pageLoadingBar, Fullscreen, AuthService, ResfulWS) {
+	.controller('AppCtrl', function ($log, $scope, $rootScope, $state, $stateParams, $location, $layout, $layoutToggles, $pageLoadingBar, $localStorage, Fullscreen, AuthService, ResfulWS) {
 		$rootScope.isLoginPage        = false;
 		$rootScope.isLightLoginPage   = false;
 		$rootScope.isLockscreenPage   = false;
@@ -141,19 +141,38 @@ app
 		};
 
 		$rootScope.currentUser = null;
+		// when user reload page
+		if (!$rootScope.isLoginPage) {
+			if ($rootScope.currentUser == null) {
+				// if user already logged in
+				if ($localStorage.currentUser != null) {
+					$rootScope.currentUser = $localStorage.currentUser;
+				}
+			}
+		};
 
-		if ($rootScope.currentUser !== null) {
-			// set default option for student, change this method if user is a teacher
-            if ($rootScope.currentUser.type === 'student') {
+		if ($rootScope.currentUser != null) {
+			// update EasyRtcId and reconnect to app when user reload page
+			AuthService.initRtc(function () {
 
-                AuthService.setEasyRtcDefaultOptions();
-            } else {
-                AuthService.setEasyRtcTeacherOptions();
-            }
+            	// update easyrtcId on database
+            	ResfulWS.api('/user/update-easyrtcid', $localStorage.currentUser, function () {
+            		console.log('EasyRtcId updated on database');
+            		// set default option for student, change this method if user is a teacher
+		            if ($rootScope.currentUser.type === 'student') {
+
+		            	console.log('Initial EasyRtc Options for Student');
+		                AuthService.setEasyRtcDefaultOptions();
+		            } else {
+		                AuthService.setEasyRtcTeacherOptions();
+		            }
+            	}); 
+            });
 		};
 
 		$scope.logout = function() {
             AuthService.logout(function() {
+            	easyrtc.disconnect();
                 $state.go('login');
             }, function() {
                 alert("Failed to logout!");

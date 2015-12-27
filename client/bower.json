@@ -8,5 +8,9 @@
   "moduleType": [],
   "license": "GNU",
   "homepage": "",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "angular-moment": "~0.10.3",
+    "moment": "~2.10.6"
+  }
 }

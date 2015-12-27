@@ -1,9 +1,11 @@
 'use strict';
 
 app
-	.controller('ChatCtrl', function($scope, $element) {
+	.controller('ChatCtrl', function($rootScope, $scope, $element) {
 		var $chat = jQuery($element),
 			$chat_conv = $chat.find('.chat-conversation');
+
+		$rootScope.allClassMembers = [];
 
 		$chat.find('.chat-inner').perfectScrollbar(); // perfect scrollbar for chat container
 
@@ -28,4 +30,13 @@ app
 
 			$chat_conv.removeClass('is-open');
 		});
+
+		$rootScope.$on('update-class-member', function (event, data) {
+			setTimeout(function () {
+				$scope.$apply(function () {
+					$rootScope.allClassMembers = data.users;
+					console.log($rootScope.allClassMembers);
+				}, 0);
+			});
+		})
 	})

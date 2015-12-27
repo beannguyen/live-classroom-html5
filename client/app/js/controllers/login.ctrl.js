@@ -19,8 +19,16 @@ app
 	                    AuthService.initRtc(function () {
 
 	                    	// update easyrtcId on database
-	                    	ResfulWS.api('/update-easyrtcid', $localStorage.currentUser, function () {
-	                    		console.log('EasyRtcId updated on database');
+	                    	ResfulWS.api('/user/update-easyrtcid', $localStorage.currentUser, function () {
+	                    		if ($rootScope.currentUser !== null) {
+									// set default option for student, change this method if user is a teacher
+						            if ($rootScope.currentUser.type === 'student') {
+
+						                AuthService.setEasyRtcDefaultOptions();
+						            } else {
+						                AuthService.setEasyRtcTeacherOptions();
+						            }
+								};
 	                    		$state.go('app.classroom');
 	                    	}); 
 	                    });

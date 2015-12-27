@@ -6,7 +6,8 @@ var app = angular.module('live-class', [
 	'ui.bootstrap',
 	'oc.lazyLoad',
 	'FBAngular',
-	'ngStorage'
+	'ngStorage',
+    'angularMoment'
 ]);
 
 app.constant('baseUrl','http://localhost:8080');

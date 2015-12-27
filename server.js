@@ -17,7 +17,8 @@ httpApp.use(express.static(__dirname + "/client/bower_components/"));
 var webServer = http.createServer(httpApp).listen(8080);
 
 // Include MongoDB Models
-var User = require('./models/User');
+var User = require('./models/User'),
+    Message = require('./models/Message');
 
 // Environment Variables
 process.env.JWT_SECRET = 'secretjwtblabla';
@@ -200,7 +201,7 @@ httpApp.post('/user/update-easyrtcid', function (req, res) {
                             if (obj) {
                                 res.json({
                                     type: true,
-                                    msg: 'Updated easyRtcId';
+                                    msg: 'Updated easyRtcId'
                                 })
                             }
                         }
@@ -216,9 +217,69 @@ httpApp.post('/user/update-easyrtcid', function (req, res) {
     } else {
         res.json({
             type: false,
-            msg: 'No params recieved';
+            msg: 'No params recieved'
         })
     }
+});
+
+httpApp.post('/user/get-all-user', function(req, res) {
+    var allUsers = [];
+    if (req.body.rtcUsers !== undefined) {
+        User.find({}, function (err, users) {
+            if (err) {
+                console.log(err);
+                res.json({
+                    type: false,
+                    msg: err
+                });
+            } else {
+                console.log(users);
+                if (users) {
+                    if (Array.isArray(users)) {
+                        users.forEach(function (element, index, array) {
+                            if (req.body.rtcUsers.hasOwnProperty(element.easyRtcId)) {
+                                allUsers.push(element);
+                            };
+                        });
+
+                        res.json({
+                            type: true,
+                            users: allUsers
+                        });
+                    }
+                };
+            }
+        })
+    };
+});
+
+httpApp.post('/chanel/send-message', function (req, res) {
+    if (req.body.data !== undefined) {
+        var msgModel = new Message();
+        msgModel.from = req.body.data.author._id;
+        if (typeof req.body.data.to === 'object') {
+            msgModel.to = req.body.data.to.targetRoom;
+        } else {
+            msgModel.to = getUserIdFromEasyRtcId(req.body.data.to);
+        };
+        msgModel.content = req.body.data.msg;
+        msgModel.save(function (err, msg) {
+            if (err) {
+                console.log(err);
+                res.json({
+                    type: false,
+                    msg: 'Could not save message to database'
+                });
+            } else {
+                if (msg) {
+                    res.json({
+                        type: true,
+                        msg: msg
+                    });
+                };
+            }
+        })
+    };
 });
 
 /**
@@ -241,6 +302,25 @@ function ensureAuthorized(req, res, next) {
     } else {
         res.sendStatus(401);
     }
+};
+
+function getUserIdFromEasyRtcId (_easyRtcId) {
+    
+    if (_easyRtcId === undefined)
+        return false;
+
+    User.findOne({ easyRtcId: _easyRtcId }, function (err, user) {
+        if (err) {
+            console.log(err);
+            return false;
+        } else {
+            if (user) {
+                return user._id;
+            } else {
+                return false;
+            }
+        };
+    });
 };
 
 // Handle uncaughtError

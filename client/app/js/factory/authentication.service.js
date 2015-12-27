@@ -1,7 +1,7 @@
 'use strict';
 
 app
-	.factory('AuthService', function ($rootScope, $http, $localStorage, baseUrl) {
+	.factory('AuthService', function ($rootScope, $http, $localStorage, ResfulWS, EasyRtcService, baseUrl) {
 
 		function changeUser(user) {
             angular.extend(currentUser, user);
@@ -41,7 +41,7 @@ app
 
             $rootScope.users = [];
 
-            easyrtc.setPeerListener(_peerListener());
+            easyrtc.setPeerListener(EasyRtcService.peerListener);
             easyrtc.setRoomOccupantListener(_roomOccupantListener);
             console.log('establishing...');
 
@@ -76,14 +76,14 @@ app
             easyrtc.enableAudioReceive(true);
         };
 
-        var _peerListener = function() {
-            console.log('peer listener');
-        };
-
         var _roomOccupantListener = function (roomName, occupants, isPrimary) {
 
             // do something to add user to list
             console.log('other peer', occupants);
+            ResfulWS.api('/user/get-all-user', {rtcUsers: occupants}, function (res) {
+                // emit update class member event, chatCtrl will handle this event
+                $rootScope.$emit('update-class-member', res);
+            });
         };
 
         return {
