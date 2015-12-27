@@ -24,24 +24,24 @@
 					Public Chat
 				</a>
 
-				<ul class="conversation-messages ps-scrollbar ps-scroll-down">
+				<ul class="conversation-messages">
+					<div class="chat-box-scroller" style="height: 250px;" data-always-visible="1" data-rail-visible="1" data-handle-color="#D7DCE2">
+						<!-- Will indicate time -->
+						<li class="time">Thursday 04, December '14</li>
 
-					<!-- Will indicate time -->
-					<li class="time">Thursday 04, December '14</li>
-
-					<li ng-repeat="message in publicRoomMessages" ng-class="{me : message.author == 'You'}">
-						<div class="user-info">
-							<a href="#">
-								<span ng-if="message.author == 'You'">{{ message.author }}</span>
-								<span ng-if="message.author != 'You'">{{ message.author.fullname }}</span>
-							</a>
-							<div class="time">{{ message.createdAt | amDateFormat:'MMMM Do YYYY, h:mm:ss' }}</div>
-						</div>
-						<div class="message-entry">
-							<p ng-repeat="entry in message.msg">{{ entry }}</p>
-						</div>
-					</li>
-
+						<li ng-repeat="message in publicRoomMessages" ng-class="{me : message.author == 'You'}">
+							<div class="user-info">
+								<a href="#">
+									<span ng-if="message.author == 'You'">{{ message.author }}</span>
+									<span ng-if="message.author != 'You'">{{ message.author.fullname }}</span>
+								</a>
+								<div class="time">{{ message.createdAt | amDateFormat:'MMMM Do YYYY, h:mm:ss' }}</div>
+							</div>
+							<div class="message-entry">
+								<p ng-repeat="entry in message.msg track by $index">{{ entry }}</p>
+							</div>
+						</li>
+					</div>
 				</ul>
 
 				<form method="post" class="chat-form">

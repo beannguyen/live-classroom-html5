@@ -5,6 +5,12 @@ app
 		$scope.isConversationVisible = false;
 		$scope.chatText = '';
 		$scope.publicRoomMessages = [];
+		var scroller = angular.element('.chat-box-scroller');
+
+		var scrollBottom = function () {
+            var scrollBottom = 5 * scroller.prop('scrollHeight') + 'px';
+            scroller.slimScroll({scrollTo: scrollBottom, start: 'bottom'});
+        };
 
 		$scope.toggleChatConversation = function()
 		{
@@ -14,16 +20,10 @@ app
 			{
 				setTimeout(function()
 				{
-					var $el = $element.find('.ps-scrollbar');
 
-					if($el.hasClass('ps-scroll-down'))
-					{
-						$el.scrollTop($el.prop('scrollHeight'));
-					}
-
-					$el.perfectScrollbar({
-						wheelPropagation: false
-					});
+					// init scroller
+					initSlimScroll('.chat-box-scroller');
+					scrollBottom();
 
 					$element.find('.form-control').focus();
 
@@ -53,7 +53,6 @@ app
 		            setTimeout(function() {
 		                $scope.$apply(function () {
 
-		                	console.log('length', $scope.publicRoomMessages.length);
 		                	if ($scope.publicRoomMessages.length > 0) {
 		                		var lastIndex = $scope.publicRoomMessages.length -1;
 		                		if (message.author == 'You') {
@@ -71,8 +70,8 @@ app
 		                	};
 
 		                    $scope.publicRoomMessages.push(message);
-		                    console.log($scope.publicRoomMessages);
-		                }, 0);            
+		                }, 0);    
+		                    scrollBottom();        
 		            });
 				};
 			};
