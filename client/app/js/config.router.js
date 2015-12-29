@@ -21,7 +21,7 @@ app
 
 		// Dashboards
 		state('app.classroom', {
-			url: '/classroom',
+			url: '/classroom?share',
 			templateUrl: appHelper.templatePath('classroom'),
 			resolve: {
 				resources: function($ocLazyLoad){
@@ -29,7 +29,8 @@ app
 						ASSETS.extra.toastr,
 					]);
 				}
-			}
+			},
+			controller: 'ClassroomCtrl'
 		}).
 
 		state('login', {
