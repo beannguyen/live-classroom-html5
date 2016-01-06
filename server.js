@@ -1,4 +1,4 @@
-var http = require('http');             	// http server core module
+var http = require('https');             	// http server core module
 var express = require("express");           // web framework external module
 var io      = require("socket.io");         // web socket external module
 var easyrtc = require("easyrtc");           // EasyRTC external module
@@ -6,6 +6,8 @@ var morgan     = require("morgan");
 var bodyParser = require("body-parser");
 var jwt        = require("jsonwebtoken");
 var mongoose   = require("mongoose");
+var fs = require('fs');
+var path = require('path');
 
 // Setup and configure Express http server. Expect a subfolder called "client" to be the web root.
 var httpApp = express();
@@ -14,7 +16,11 @@ httpApp.use(express.static(__dirname + "/client/assets/"));
 httpApp.use(express.static(__dirname + "/client/bower_components/"));
 
 // Start Express http server on port 8080
-var webServer = http.createServer(httpApp).listen(8080);
+var options = {
+    key: fs.readFileSync(path.join(__dirname, 'fake-keys/privatekey.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'fake-keys/certificate.pem'))
+};
+var webServer = http.createServer(options, httpApp).listen(8080);
 
 // Include MongoDB Models
 var User = require('./models/User'),
@@ -233,7 +239,6 @@ httpApp.post('/user/get-all-user', function(req, res) {
                     msg: err
                 });
             } else {
-                console.log(users);
                 if (users) {
                     if (Array.isArray(users)) {
                         users.forEach(function (element, index, array) {
@@ -386,27 +391,3 @@ var multipleChanelApp = function(err, appObj) {
         console.log('Created WebRTC App');
     }
 };
-
-require('./Signaling-Server.js')(httpApp, function(socket) {
-    try {
-        var params = socket.handshake.query;
-
-        // "socket" object is totally in your own hands!
-        // do whatever you want!
-
-        // in your HTML page, you can access socket as following:
-        // connection.socketCustomEvent = 'custom-message';
-        // var socket = connection.getSocket();
-        // socket.emit(connection.socketCustomEvent, { test: true });
-
-        if (!params.socketCustomEvent) {
-            params.socketCustomEvent = 'custom-message';
-        }
-
-        socket.on(params.socketCustomEvent, function(message) {
-            try {
-                socket.broadcast.emit(params.socketCustomEvent, message);
-            } catch (e) {}
-        });
-    } catch (e) {}
-});

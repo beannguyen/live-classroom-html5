@@ -1,7 +1,7 @@
 'use strict';
 
 app
-	.controller('ChatCtrl', function($rootScope, $scope, $element) {
+	.controller('ChatCtrl', function($rootScope, $scope, $element, EasyRtcService) {
 		var $chat = jQuery($element),
 			$chat_conv = $chat.find('.chat-conversation');
 
@@ -31,12 +31,24 @@ app
 			$chat_conv.removeClass('is-open');
 		});
 
+		// this event still not working on firefox
 		$rootScope.$on('update-class-member', function (event, data) {
+			
+			console.log('update-member fired')
 			setTimeout(function () {
-				$scope.$apply(function () {
-					$rootScope.allClassMembers = data.users;
-					console.log($rootScope.allClassMembers);
-				}, 0);
+                $rootScope.$apply(function () {
+                    $rootScope.allClassMembers = data.users;
+                    console.log($rootScope.allClassMembers)
+                }, 0);
+            });
+		});
+
+		$scope.watchScreen = function () {
+			var teacherId = $('#watchScreen').attr('data-target');
+			console.log(teacherId);
+			EasyRtcService.performCall(teacherId, function () {
+				$('#watchScreen').text('Connected...');
+				$('#watchScreen').prop('disabled', true);
 			});
-		})
+		}
 	})

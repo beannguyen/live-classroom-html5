@@ -44,3 +44,22 @@ a {
 .footer-sticked-chat .chat-conversations>li .conversation-window .conversation-messages li .user-info+.message-entry {
 	padding-left: 15px;
 }
+
+#chat .chat-group > button {
+	position: relative;
+    padding: 6px 35px;
+    margin: 0 10px 0 25px;
+    width: 80%;
+}
+
+#chat .chat-group {
+	height: 53%;
+    overflow-y: scroll;
+}
+
+#chat .videos {
+	position: fixed;
+    bottom: 0;
+    width: 65%;
+    height: 29%;
+}

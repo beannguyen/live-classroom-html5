@@ -96,7 +96,7 @@ app.
 		this.prepareHorizontalMenu = function()
 		{
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-home');
-			var layouts      = this.addItem('Share Desktop',	'/app/classroom?share=desktop',	'linecons-desktop');
+			//var layouts      = this.addItem('Share Desktop',	'/app/classroom?share=desktop',	'linecons-desktop');
 
 			return this;
 		}

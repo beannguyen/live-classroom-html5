@@ -56,6 +56,10 @@ app
                 console.log('Login failure');
                 toastr.error('Something went wrong, please login again.', 'Oops!');
             });
+
+            easyrtc.setStreamAcceptor( function(caller, stream) {
+                EasyRtcService.streamAcceptor(caller, stream);
+            });
         };
 
         var _setEasyRtcDefaultOptions = function () {
@@ -70,8 +74,8 @@ app
         var _setEasyRtcTeacherOptions = function () {
             easyrtc.enableDebug(true);
             easyrtc.enableDataChannels(true);
-            easyrtc.enableVideo(false);
-            easyrtc.enableAudio(false);
+            easyrtc.enableVideo(true);
+            easyrtc.enableAudio(true);
             easyrtc.enableVideoReceive(true);
             easyrtc.enableAudioReceive(true);
         };
@@ -79,9 +83,27 @@ app
         var _roomOccupantListener = function (roomName, occupants, isPrimary) {
 
             // do something to add user to list
-            console.log('other peer', occupants);
+            console.log('other peer', occupants, EasyRtcService.isCalling);
+            if (EasyRtcService.isCalling) {
+                easyrtc.sendPeerMessage({ targetRoom: 'default' }, "training", {status: 'start'}, 
+                    function(){
+
+                        console.log('sent to new peer')
+
+                    }, 
+                    function(errCode, errorText) {
+                        console.log("messaging error" + errorText);
+                    });
+            };
+
             ResfulWS.api('/user/get-all-user', {rtcUsers: occupants}, function (res) {
                 // emit update class member event, chatCtrl will handle this event
+                setTimeout(function () {
+                    $rootScope.$apply(function () {
+                        EasyRtcService.allUsers = res.users;
+                        $rootScope.allClassMembers = EasyRtcService.allUsers;
+                    }, 0);
+                });
                 $rootScope.$emit('update-class-member', res);
             });
         };

@@ -15,9 +15,23 @@
 		
 		
 		<div class="chat-group">
-			<strong>Classmate</strong>
+			<strong ng-if="currentUser.type !== 'teacher'">Teacher</strong>
+			<a href="" ng-repeat="user in allClassMembers | filter: { type: 'teacher' }">
+				<span class="user-status is-online"></span> 
+				<em>{{ user.fullname }}</em>
+			</a>
+
+			<button id="watchScreen" class="btn btn-info btn-xs hide" ng-click="watchScreen()">
+				<i class="linecons-desktop"></i> Connect stream
+			</button>
+
+			<strong>Members</strong>
 			
-			<a href="" ng-repeat="user in allClassMembers"><span class="user-status is-online"></span> <em>{{ user.fullname }}</em></a>
+			<a href="" ng-repeat="user in allClassMembers | filter: { type: 'student' }"><span class="user-status is-online"></span> <em>{{ user.fullname }}</em></a>
+		</div>
+
+		<div class="videos">
+			<video autoplay id="videos-container"></video>
 		</div>
 	
 	</div>

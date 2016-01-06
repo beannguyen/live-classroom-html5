@@ -13,6 +13,7 @@ app
 				$rootScope.isLightLoginPage   = false;
 				$rootScope.isLockscreenPage   = false;
 				$rootScope.isMainPage         = true;
+				$rootScope.layoutOptions.horizontalMenu.isVisible = true;
 			},
 			data: {
 				auth: true
@@ -34,7 +35,7 @@ app
 		}).
 
 		state('login', {
-			url: '/login',
+			url: '/login?loggedout',
 			templateUrl: appHelper.templatePath('login-light'),
             resolve: {
 				resources: function($ocLazyLoad){

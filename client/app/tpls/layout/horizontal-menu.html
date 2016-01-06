@@ -12,6 +12,18 @@
 			
 			<ul ng-if="item.menuItems.length" ng-init="subItems = item.menuItems" ng-include="'menu-items-recursive-tpl'"></ul>
 		</li>
+		<li class="has-sub" ng-if="checkPermission('screen-sharing')">
+			<a id="startTrainingBtn" href="javascript:;" ng-click="startTaining()">
+				<i class="linecons-desktop"></i>
+				<span class="title">Start training</span>
+			</a>
+		</li>
+		<li ng-if="checkPermission('screen-sharing')" id="stopTrainingBtn" style="display: none;">
+			<a href="javascript:;" ng-click="stopTaning()">
+				<i class="linecons-desktop"></i>
+				<span class="title">Stop training</span>
+			</a>
+		</li>
 	</script>
 	
 	<script type="text/ng-template" id="menu-items-recursive-tpl">
@@ -34,8 +46,7 @@
 		<!-- Navbar Brand -->
 		<div class="navbar-brand">
 			<a href="#/app/dashboard-variant-1" class="logo">
-				<img src="images/logo-white-bg@2x.png" width="80" alt="" class="hidden-xs" />
-				<img src="images/logo@2x.png" width="80" alt="" class="visible-xs" />
+				<h2>LiveClass</h2>
 			</a>
 			<a href="" data-toggle="settings-pane" ng-click="settingsPaneToggle(true);">
 				<i class="linecons-cog"></i>

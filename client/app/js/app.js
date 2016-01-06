@@ -10,7 +10,7 @@ var app = angular.module('live-class', [
     'angularMoment'
 ]);
 
-app.constant('baseUrl','http://localhost:8080');
+app.constant('baseUrl','https://localhost:8080');
 
 app.run(function() {
 	// Page Loading Overlay

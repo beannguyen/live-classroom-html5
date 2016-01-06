@@ -1,7 +1,7 @@
 'use strict';
 
 app
-	.controller('AppCtrl', function ($log, $scope, $rootScope, $state, $stateParams, $location, $layout, $layoutToggles, $pageLoadingBar, $localStorage, Fullscreen, AuthService, ResfulWS) {
+	.controller('AppCtrl', function ($log, $scope, $rootScope, $state, $stateParams, $appPermission, $location, $layout, $layoutToggles, $pageLoadingBar, $localStorage, Fullscreen, AuthService, ResfulWS) {
 		$rootScope.isLoginPage        = false;
 		$rootScope.isLightLoginPage   = false;
 		$rootScope.isLockscreenPage   = false;
@@ -170,10 +170,17 @@ app
             });
 		};
 
+		var $permission = $appPermission.instantiate();
+		$scope.checkPermission = function (action) {
+			if ($localStorage.currentUser !== undefined)
+				return $permission.check(action);
+			return false;
+		}
+
 		$scope.logout = function() {
             AuthService.logout(function() {
             	easyrtc.disconnect();
-                $state.go('login');
+                window.location.href = '/#/login?loggedout=true';
             }, function() {
                 alert("Failed to logout!");
             });

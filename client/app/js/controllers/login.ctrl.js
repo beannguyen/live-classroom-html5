@@ -1,7 +1,12 @@
 'use strict';
 
 app
-	.controller('LoginCtrl', function($rootScope, $scope, $location, $state, $localStorage, AuthService, ResfulWS) {
+	.controller('LoginCtrl', function($rootScope, $scope, $location, $state, $stateParams, $localStorage, AuthService, ResfulWS) {
+
+		if ($stateParams.loggedout !== undefined) {
+			console.log('reload')
+			window.location = '/#/login';
+		};
 		
 		$scope.credential = {};
 		
